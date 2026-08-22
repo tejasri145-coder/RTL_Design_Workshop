@@ -14,7 +14,10 @@
 
 ## Objective
 
-In this experiment, I designed and verified a simple 2:1 Multiplexer (MUX) using Verilog. The design was first simulated to verify its functional behavior and then synthesized using Yosys to observe how the RTL design is converted into a gate-level implementation.
+In this experiment, I designed and verified a simple 2:1 Multiplexer
+(MUX) using Verilog. The design was first simulated to verify its
+functional behavior and then synthesized using Yosys to observe how
+the RTL design is converted into a gate-level implementation.
 
 ---
 
@@ -32,15 +35,21 @@ The operation of the MUX is:
 - When `sel = 0`, `y = i0`
 - When `sel = 1`, `y = i1`
 
-The Verilog RTL describes the required MUX functionality, and the design was implemented and tested inside the VirtualBox-based VSD environment.
+The Verilog RTL describes this behavior using an `always` block.
 
 ---
 
 ## Simulation
 
-After writing the RTL and testbench, I simulated the Good MUX and observed the output waveform using GTKWave.
+After writing the RTL, I simulated the Good MUX using a Verilog
+simulation environment. Different combinations of `i0`, `i1`, and
+`sel` were applied through the testbench.
 
-The waveform shows the signals `i0`, `i1`, `sel`, and `y` changing with time. The output `y` follows the input selected by `sel`, confirming the expected behavior of the 2:1 MUX.
+The generated waveform was viewed using GTKWave. The waveform contains
+the signals `i0`, `i1`, `sel`, and `y`.
+
+The waveform confirms that the output `y` follows the selected input
+correctly.
 
 ### GTKWave Simulation Result
 
@@ -50,11 +59,12 @@ The waveform shows the signals `i0`, `i1`, `sel`, and `y` changing with time. Th
 
 ## Synthesis
 
-After verifying the simulation results, I synthesized the Good MUX using Yosys.
+After successful simulation, I synthesized the Good MUX RTL using
+Yosys.
 
-The synthesized design was mapped to the Sky130 standard cell library. The Yosys-generated block diagram shows the MUX implementation using the `sky130_fd_sc_hd__mux2_1` standard cell.
-
-The synthesized design contains the inputs `i0`, `i1`, and `sel`, which are connected to the corresponding MUX cell inputs, with the resulting output connected to `y`.
+The synthesized design was mapped to the Sky130 standard cell library.
+The generated netlist and block diagram show how the MUX functionality
+is represented at the gate level.
 
 ### Yosys Synthesized Block Diagram
 
@@ -66,12 +76,43 @@ The synthesized design contains the inputs `i0`, `i1`, and `sel`, which are conn
 
 The Good MUX was successfully simulated and synthesized.
 
-The GTKWave waveform verified that the output `y` correctly follows either `i0` or `i1` depending on the value of the select signal `sel`.
+The GTKWave output verified the functional behavior of the MUX for
+different input and select combinations.
 
-The Yosys synthesis result successfully converted the RTL design into a gate-level implementation using the Sky130 standard cell library. The synthesized block diagram clearly shows the mapping of the RTL MUX to the `sky130_fd_sc_hd__mux2_1` cell.
+The Yosys synthesis result generated the corresponding gate-level
+implementation and block diagram, showing the mapping of the RTL
+design to a standard cell from the Sky130 library.
 
 ---
 
 ## What I Learned
 
-From
+From this experiment, I learned:
+
+- How to design a 2:1 MUX using Verilog RTL.
+- How to create and use a testbench for functional verification.
+- How to simulate a Verilog design.
+- How to generate and analyze waveform outputs using GTKWave.
+- How to synthesize RTL using Yosys.
+- How RTL logic is converted into a gate-level netlist.
+- How a synthesized design can be represented using standard cells.
+- How to observe the relationship between RTL code and synthesized hardware.
+
+---
+
+## Conclusion
+
+The Good MUX was successfully designed, simulated, and synthesized.
+The simulation waveform verified that the output correctly follows the
+selected input. The Yosys synthesis result demonstrated the conversion
+of the RTL MUX into a gate-level implementation using the Sky130
+standard cell library.
+
+This experiment provided a practical understanding of the basic
+RTL-to-gate-level digital design flow.
+
+---
+
+### 🔝 Back to Index
+
+[Back to Index](#-index)
