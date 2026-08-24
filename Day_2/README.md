@@ -1,283 +1,442 @@
-# Day 2 – Sequential Logic, DFF and Multiple Modules
+# Day 2 - Sequential Logic, DFF and Multiple Module Synthesis
 
-## 📑 Index
+Day 2 focuses on understanding sequential logic circuits, different types of D flip-flops, multiplication circuits, and multiple module synthesis using Yosys.
 
-1. [Objective](#objective)
-2. [Theory](#theory)
-3. [DFF with Asynchronous Set](#dff-with-asynchronous-set)
-4. [DFF with Asynchronous Reset](#dff-with-asynchronous-reset)
-5. [DFF with Synchronous Reset](#dff-with-synchronous-reset)
-6. [Multiplier Designs](#multiplier-designs)
-7. [Multiple Module Design](#multiple-module-design)
-8. [Simulation](#simulation)
-9. [Synthesis](#synthesis)
-10. [Results](#results)
-11. [What I Learned](#what-i-learned)
-12. [Conclusion](#conclusion)
+In this session, I worked with D flip-flops using asynchronous set, asynchronous reset, synchronous reset, multiplication circuits, and multiple module designs.
+
+The designs were simulated to verify their functionality and synthesized using Yosys to understand the generated netlists and block diagrams.
 
 ---
 
-## Objective
+# Index
 
-In this experiment, I studied different sequential RTL designs using
-Verilog HDL.
+1. [Objective](#1-objective)
+2. [Theory](#2-theory)
+3. [DFF with Asynchronous Set](#3-dff-with-asynchronous-set)
+4. [DFF with Asynchronous Reset](#4-dff-with-asynchronous-reset)
+5. [DFF with Synchronous Reset](#5-dff-with-synchronous-reset)
+6. [2-Bit Multiplication](#6-2-bit-multiplication)
+7. [8-Bit Multiplication](#7-8-bit-multiplication)
+8. [Multiple Module Design](#8-multiple-module-design)
+9. [Hierarchical Synthesis](#9-hierarchical-synthesis)
+10. [Flattened Synthesis](#10-flattened-synthesis)
+11. [Overall Learning](#11-overall-learning)
+12. [Conclusion](#12-conclusion)
 
-The experiments mainly focus on:
+---
 
-- D Flip-Flop with asynchronous set
-- D Flip-Flop with asynchronous reset
-- D Flip-Flop with synchronous reset
-- 2-bit and 8-bit multiplier designs
+# 1. Objective
+
+The main objective of Day 2 was to understand sequential logic and how different RTL designs are synthesized into hardware.
+
+The main concepts covered were:
+
+- Sequential logic
+- D flip-flops
+- Asynchronous set
+- Asynchronous reset
+- Synchronous reset
+- RTL simulation
+- Waveform analysis
+- Multiplication circuits
 - Multiple module designs
-- RTL simulation and waveform analysis
-- RTL synthesis and netlist generation
+- Hierarchical synthesis
+- Flattened synthesis
+- Netlist generation
+- Block diagram analysis
+- RTL synthesis using Yosys
 
 ---
 
-## Theory
+# 2. Theory
 
-### D Flip-Flop
+## Sequential Logic
 
-A D Flip-Flop is a sequential logic element used to store one bit of
-data. The output changes according to the input `D` at the active
-clock edge.
+Sequential logic is a type of digital logic in which the output depends on both the present input and the previous state of the circuit.
 
-### Asynchronous Set
+Unlike combinational logic, sequential circuits contain memory elements.
 
-An asynchronous set changes the output immediately when the set signal
-is activated, without waiting for the clock edge.
+Flip-flops are commonly used as memory elements in sequential circuits.
 
-### Asynchronous Reset
+## D Flip-Flop
 
-An asynchronous reset clears the output immediately when the reset
-signal is activated, independent of the clock.
+A D flip-flop stores one bit of information.
 
-### Synchronous Reset
+The main signals of a D flip-flop are:
 
-A synchronous reset operates only at the active clock edge. The reset
-condition is checked along with the clock.
+- `D` - Data input
+- `clk` - Clock input
+- `Q` - Output
+- `reset` or `set` - Control signals
 
----
+Normally, the value present at the D input is transferred to the output at the active edge of the clock.
 
-## DFF with Asynchronous Set
-
-A D Flip-Flop with asynchronous set was designed and verified.
-
-The asynchronous set allows the output to be set independently of the
-clock signal.
-
-### Block Diagram
-
-![DFF Async Set Block Diagram](./dff_async_set%20blockdiagram.png)
-
-### Netlist
-
-![DFF Async Set Netlist](./dff_async_set%20netlist.png)
-
-### Waveform
-
-![DFF Async Set Waveform](./dff_async_set%20waveform.png)
-
-The waveform verifies the operation of the D Flip-Flop with
-asynchronous set.
+Different types of reset and set conditions can be used depending on the design.
 
 ---
 
-## DFF with Asynchronous Reset
+# 3. DFF with Asynchronous Set
 
-A D Flip-Flop with asynchronous reset was implemented and verified.
+## What I designed
 
-The asynchronous reset can clear the output independently of the
-clock.
+In this experiment, I worked with a D flip-flop having an asynchronous set signal.
 
-### Block Diagram
+An asynchronous set can change the output immediately without waiting for the active edge of the clock.
 
-![DFF Async Reset Block Diagram](./dff_asyncres%20blockdiagram.png)
+When the set signal becomes active, the output is forced to logic `1`.
 
-### Netlist
-
-![DFF Async Reset Netlist](./dff_asyncres%20netlist.png)
-
-### Waveform
-
-![DFF Async Reset Waveform](./dff_asyncres%20waveform.png)
-
-The waveform shows the response of the flip-flop when the asynchronous
-reset is activated.
-
----
-
-## DFF with Synchronous Reset
-
-A D Flip-Flop with synchronous reset was designed to understand the
-difference between synchronous and asynchronous reset.
-
-In synchronous reset, the reset operation takes place only at the
-active clock edge.
-
-### Netlist and Block Diagram
-
-![DFF Sync Reset Netlist and Block Diagram](./dff_syncres%20netlist%20and%20blockdiagram.png)
-
-### Waveform
-
-![DFF Sync Reset Waveform](./dff_syncres%20waveform.png)
-
-The waveform verifies the synchronous reset operation.
-
----
-
-## Multiplier Designs
-
-A multiplier is a combinational digital circuit used to perform binary
-multiplication.
-
-Different multiplier sizes were synthesized during this experiment.
-
-### 2-Bit Multiplier
-
-![2 Bit Multiplier Netlist and Block Diagram](./mult%202%20netlist%20and%20blockdiagram.png)
-
-### 8-Bit Multiplier
-
-![8 Bit Multiplier Netlist and Block Diagram](./mult%208%20netlist%20and%20blockdiagram.png)
-
-The synthesized designs show the hardware representation of the
-different multiplier circuits.
-
----
-
-## Multiple Module Design
-
-Large RTL designs can be divided into multiple smaller Verilog
-modules.
-
-Each module performs a particular function and modules can be
-connected together using module instantiation.
-
-Multiple-module designs can be represented using:
-
-- Flat hierarchy
-- Hierarchical structure
-
----
-
-### Flat Netlist 1
-
-![Multiple Module Flat Netlist 1](./multiple_module_flat_netlist1.png)
-
-### Flat Netlist 2
-
-![Multiple Module Flat Netlist 2](./multiple_module_flat_netlist2.png)
-
-### Flat Netlist 3
-
-![Multiple Module Flat Netlist 3](./multiple_module_flat_netlist3.png)
-
-The flat netlists represent the design after the module hierarchy has
-been flattened.
-
----
-
-### Hierarchical Netlist 1
-
-![Multiple Module Hierarchical Netlist 1](./multiple_module_hier_netlist1.png)
-
-### Hierarchical Netlist 2
-
-![Multiple Module Hierarchical Netlist 2](./multiple_module_hier_netlist2.png)
-
-The hierarchical netlists preserve the module-level structure of the
-RTL design.
-
----
-
-### Multiple Modules Netlist and Block Diagram
-
-![Multiple Modules Netlist and Block Diagram](./multiple_modules%20netlist%20and%20blockdiagram.png)
-
-This diagram shows the overall multiple-module design and its
-corresponding netlist.
-
----
+When the set signal is inactive, the flip-flop operates normally according to the clock and data input.
 
 ## Simulation
 
-The RTL designs were simulated to verify their functionality.
+The design was simulated and the waveform was observed.
 
-Simulation waveforms were used to observe:
+The waveform was used to analyze:
 
 - Clock signal
 - Data input
-- Set and reset signals
-- Output response
-- Combinational logic behavior
+- Asynchronous set
+- Output
 
-The simulation results were checked before proceeding to synthesis.
+The output changes immediately when the asynchronous set is activated.
+
+### Waveform Result
+
+![DFF Asynchronous Set Waveform](./dff_async_set%20waveform.png)
+
+## Netlist
+
+After synthesis, the generated netlist was analyzed.
+
+The netlist represents the hardware connections generated from the RTL design.
+
+### Netlist Result
+
+![DFF Asynchronous Set Netlist](./dff_async_set%20netlist.png)
+
+## Block Diagram
+
+The synthesized block diagram shows the hardware structure of the D flip-flop with asynchronous set.
+
+### Block Diagram Result
+
+![DFF Asynchronous Set Block Diagram](./dff_async_set%20blockdiagram.png)
+
+## Result
+
+This experiment helped me understand that an asynchronous set affects the output independently of the clock.
+
+## Files
+
+- `dff_async_set waveform.png` - Simulation waveform
+- `dff_async_set netlist.png` - Synthesized netlist
+- `dff_async_set blockdiagram.png` - Block diagram
 
 ---
+
+# 4. DFF with Asynchronous Reset
+
+## What I designed
+
+In this experiment, I worked with a D flip-flop having an asynchronous reset.
+
+An asynchronous reset changes the output immediately when the reset signal becomes active.
+
+It does not need to wait for the active edge of the clock.
+
+When reset is active, the output is forced to logic `0`.
+
+When reset is inactive, the D flip-flop operates normally.
+
+## Simulation
+
+The design was simulated and the waveform was observed.
+
+The waveform shows the behavior of the clock, reset, input, and output signals.
+
+### Waveform Result
+
+![DFF Asynchronous Reset Waveform](./dff_asyncres%20waveform.png)
+
+## Netlist
+
+The RTL design was synthesized and the generated netlist was observed.
+
+### Netlist Result
+
+![DFF Asynchronous Reset Netlist](./dff_asyncres%20netlist.png)
+
+## Block Diagram
+
+The synthesized block diagram was used to understand the hardware implementation of the asynchronous reset D flip-flop.
+
+### Block Diagram Result
+
+![DFF Asynchronous Reset Block Diagram](./dff_asyncres%20blockdiagram.png)
+
+## Result
+
+This experiment helped me understand that an asynchronous reset can reset the output immediately without waiting for the clock edge.
+
+## Files
+
+- `dff_asyncres waveform.png` - Simulation waveform
+- `dff_asyncres netlist.png` - Synthesized netlist
+- `dff_asyncres blockdiagram.png` - Block diagram
+
+---
+
+# 5. DFF with Synchronous Reset
+
+## What I designed
+
+In this experiment, I worked with a D flip-flop having a synchronous reset.
+
+Unlike an asynchronous reset, a synchronous reset affects the output only at the active edge of the clock.
+
+When the reset signal is active at the clock edge, the output is reset.
+
+Otherwise, the data input is transferred to the output.
+
+## Simulation
+
+The design was simulated and the waveform was observed.
+
+The waveform helped verify that the reset operation occurs according to the clock.
+
+### Waveform Result
+
+![DFF Synchronous Reset Waveform](./dff_syncres%20waveform.png)
 
 ## Synthesis
 
-After successful RTL simulation, the designs were synthesized.
+The design was synthesized using Yosys.
 
-RTL synthesis converts the Verilog HDL description into a
-hardware-level representation.
+The generated netlist and block diagram show how the synchronous reset logic is implemented in hardware.
 
-The generated netlists and block diagrams help in understanding how
-the RTL designs are mapped into hardware.
+### Netlist and Block Diagram
 
----
+![DFF Synchronous Reset Netlist and Block Diagram](./dff_syncres%20netlist%20and%20blockdiagram.png)
 
-## Results
+## Result
 
-The D Flip-Flop designs with asynchronous set, asynchronous reset and
-synchronous reset were successfully designed and verified.
+This experiment helped me understand the difference between synchronous and asynchronous reset operations.
 
-The 2-bit and 8-bit multiplier designs were successfully synthesized.
+In synchronous reset, the output changes according to the reset condition only at the active clock edge.
 
-The multiple-module designs were also synthesized and their flat and
-hierarchical netlists were observed.
+## Files
 
-The generated waveforms and netlists verified the expected behavior of
-the designs.
+- `dff_syncres waveform.png` - Simulation waveform
+- `dff_syncres netlist and blockdiagram.png` - Netlist and block diagram
 
 ---
 
-## What I Learned
+# 6. 2-Bit Multiplication
 
-From this experiment, I learned:
+## What I designed
 
-- Basic operation of a D Flip-Flop.
-- Difference between synchronous and asynchronous reset.
-- Working of asynchronous set and reset.
-- Working of synchronous reset.
-- RTL coding using Verilog HDL.
-- RTL simulation and waveform analysis.
-- Basic multiplier design.
-- Multiple Verilog module design.
-- Difference between flat and hierarchical netlists.
-- RTL synthesis and hardware representation.
-- How RTL modules are converted into hardware netlists.
+In this experiment, I worked with a multiplication circuit.
 
----
+The RTL design performs multiplication between input values and produces the multiplication result at the output.
 
-## Conclusion
+The purpose of this experiment was to understand how arithmetic operations written in Verilog are converted into hardware during synthesis.
 
-Day 2 provided an understanding of sequential RTL design, multiplier
-design and multiple-module hierarchy.
+## Synthesis
 
-D Flip-Flops with asynchronous set, asynchronous reset and synchronous
-reset were designed and verified.
+The multiplication design was synthesized using Yosys.
 
-The multiplier designs were synthesized and the flat and hierarchical
-representations of multiple-module RTL designs were studied.
+The generated netlist and block diagram were analyzed to understand the hardware implementation.
 
-The experiments helped in understanding RTL coding, simulation,
-synthesis, netlists and hardware representation.
+### Netlist and Block Diagram
+
+![2-Bit Multiplication Netlist and Block Diagram](./mult_2%20netlist%20and%20blockdiagram.png)
+
+## Result
+
+This experiment helped me understand how a multiplication operation written in RTL is interpreted and synthesized into digital hardware.
+
+## File
+
+- `mult_2 netlist and blockdiagram.png` - Synthesized netlist and block diagram
 
 ---
 
-### 🔝 Back to Index
+# 7. 8-Bit Multiplication
 
-[Back to Index](#-index)
+## What I designed
+
+In this experiment, I worked with another multiplication circuit having larger input width.
+
+Increasing the number of input bits increases the complexity of the hardware required to perform multiplication.
+
+The purpose of this experiment was to compare the synthesized hardware with the smaller multiplication design.
+
+## Synthesis
+
+The RTL was synthesized using Yosys.
+
+The generated netlist and block diagram show the hardware required to implement the multiplication operation.
+
+### Netlist and Block Diagram
+
+![8-Bit Multiplication Netlist and Block Diagram](./mult_8%20netlist%20and%20blockdiagram.png)
+
+## Result
+
+This experiment helped me understand that the size and complexity of arithmetic hardware increase as the width of the input operands increases.
+
+## File
+
+- `mult_8 netlist and blockdiagram.png` - Synthesized netlist and block diagram
+
+---
+
+# 8. Multiple Module Design
+
+## What I designed
+
+In this experiment, I worked with a design containing multiple Verilog modules.
+
+Large RTL designs are usually divided into smaller modules.
+
+Each module performs a particular function, and the modules are connected together to form the complete design.
+
+This approach makes RTL designs easier to understand, develop, test, and reuse.
+
+## Synthesis
+
+The multiple module design was synthesized using Yosys.
+
+The resulting netlist and block diagram show how different modules are connected together.
+
+### Netlist and Block Diagram
+
+![Multiple Modules Netlist and Block Diagram](./multiple_modules%20netlist%20and%20blockdiagram.png)
+
+## Result
+
+This experiment helped me understand how multiple Verilog modules can be connected together and synthesized as a single design.
+
+## File
+
+- `multiple_modules netlist and blockdiagram.png` - Multiple module synthesis result
+
+---
+
+# 9. Hierarchical Synthesis
+
+## What I designed
+
+In hierarchical synthesis, the structure of the individual modules is maintained.
+
+The submodules remain visible in the synthesized design instead of being merged completely into the top-level module.
+
+This makes it easier to understand the relationship between the top module and its submodules.
+
+## Synthesis
+
+The design was synthesized while maintaining the module hierarchy.
+
+Different synthesized netlists were observed to understand the hierarchical representation.
+
+### Hierarchical Netlist 1
+
+![Multiple Module Hierarchical Netlist 1](./multiple_module_hier%20netlist1.png)
+
+### Hierarchical Netlist 2
+
+![Multiple Module Hierarchical Netlist 2](./multiple_module_hier%20netlist2.png)
+
+## Result
+
+The hierarchical synthesis results show the module boundaries and connections between different modules.
+
+This helped me understand how Yosys preserves the RTL module hierarchy during synthesis.
+
+## Files
+
+- `multiple_module_hier netlist1.png` - Hierarchical netlist result 1
+- `multiple_module_hier netlist2.png` - Hierarchical netlist result 2
+
+---
+
+# 10. Flattened Synthesis
+
+## What I designed
+
+In flattened synthesis, the hierarchy between different modules is removed.
+
+The logic from the submodules is combined into the top-level design.
+
+As a result, the synthesized circuit is represented as a single flattened hardware structure.
+
+## Synthesis
+
+The multiple module design was flattened during synthesis.
+
+Different netlist views were observed to understand how the design changes after flattening.
+
+### Flattened Netlist 1
+
+![Multiple Module Flat Netlist 1](./multiple_module_flat%20netlist1.png)
+
+### Flattened Netlist 2
+
+![Multiple Module Flat Netlist 2](./multiple_module_flat%20netlist2.png)
+
+### Flattened Netlist 3
+
+![Multiple Module Flat Netlist 3](./multiple_module_flat%20netlist3.png)
+
+## Result
+
+The flattened synthesis results show that the module hierarchy is removed and the internal logic is combined into a single design.
+
+This experiment helped me understand the difference between hierarchical and flattened synthesis.
+
+## Files
+
+- `multiple_module_flat netlist1.png` - Flattened netlist result 1
+- `multiple_module_flat netlist2.png` - Flattened netlist result 2
+- `multiple_module_flat netlist3.png` - Flattened netlist result 3
+
+---
+
+# 11. Overall Learning
+
+Through the Day 2 experiments, I understood the following:
+
+- How sequential logic differs from combinational logic.
+- How a D flip-flop stores data.
+- How clock signals control sequential circuits.
+- How asynchronous set works.
+- How asynchronous reset works.
+- How synchronous reset works.
+- The difference between synchronous and asynchronous control signals.
+- How simulation waveforms are used to verify RTL behavior.
+- How multiplication operations are represented in RTL.
+- How arithmetic RTL is converted into hardware.
+- How input width affects the complexity of multiplication circuits.
+- How multiple Verilog modules are connected.
+- How module hierarchy is represented during synthesis.
+- How hierarchical synthesis preserves module boundaries.
+- How flattened synthesis removes module boundaries.
+- How Yosys generates synthesized netlists.
+- How synthesized block diagrams represent hardware structures.
+- How RTL code is converted into actual digital logic.
+
+---
+
+# 12. Conclusion
+
+Day 2 helped me understand sequential logic, D flip-flops, multiplication circuits, and multiple module synthesis.
+
+I worked with D flip-flops having asynchronous set, asynchronous reset, and synchronous reset. By observing their waveforms and synthesized circuits, I understood how different reset and set conditions affect sequential logic.
+
+The multiplication experiments helped me understand how arithmetic operations written in RTL are converted into hardware and how the size of the operands affects hardware complexity.
+
+The multiple module experiments helped me understand how larger RTL designs can be divided into smaller modules.
+
+By comparing hierarchical and flattened synthesis results, I understood how Yosys can either preserve module boundaries or combine the complete design into a single flattened hardware structure.
+
+Overall, Day 2 improved my understanding of sequential RTL design, D flip-flops, arithmetic circuits, module hierarchy, simulation, synthesis, netlists, and hardware implementation.
