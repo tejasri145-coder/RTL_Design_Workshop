@@ -45,7 +45,7 @@ The RTL design was simulated before synthesis to verify its functional behavior.
 
 ### Pre-Synthesis Waveform
 
-![Pre-Synthesis Waveform](pre_synth%20waveform.png)
+![Pre-Synthesis Waveform](pre_synth_sim waveform.png)
 
 The waveform shows the input, clock, reset and output signals of the RTL design.
 
@@ -65,7 +65,7 @@ After synthesis, the generated netlist was simulated to verify the functionality
 
 ### Post-Synthesis Waveform
 
-![Post-Synthesis Waveform](post_synth_sim%20waveforms.png)
+![Post-Synthesis Waveform](post_synth_sim waveform.png)
 
 The post-synthesis waveform is compared with the RTL waveform to check whether the functional behavior is preserved.
 
